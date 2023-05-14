@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 struct PasswordInfo{
@@ -7,6 +8,10 @@ struct PasswordInfo{
     string website;
     string login;
 };
+
+void addPassword(const){
+
+}
 
 int main() {
 
