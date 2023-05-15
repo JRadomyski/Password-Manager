@@ -9,7 +9,7 @@ struct PasswordInfo{
     string login;
 };
 
-void addPassword(const){
+void addPassword(){
 
 }
 
