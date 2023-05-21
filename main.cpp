@@ -68,7 +68,7 @@ void store_password(const std::string& master_key) {
     std::string encrypted_login = crypt(login, master_key, "encrypt");
     std::string encrypted_password = crypt(password, master_key, "encrypt");
 
-    std::ofstream file("vault.vt", std::ios::app);
+    std::ofstream file("vault.txt", std::ios::app);
     if (file.is_open()) {
         file << encrypted_platform << " " << encrypted_login << " " << encrypted_password << "\n";
         file.close();
