@@ -1,10 +1,30 @@
-# Project: Password Manager
+# Password Vault
 
-## Command descriptions:
-###  Search passwords – returns passwords that contain specific parameters.
-### Sort passwords – returns a sorted list of all passwords. It should allow sorting by at least 2 different parameters simultaneously, such as by name and category.
-### Add password – adds a new password to the encrypted file. The user should have the option to enter their own password and be informed about its strength and whether it has been previously used. Additionally, an automatically generated password should be proposed, giving the user the ability to choose certain parameters like: Number of characters; Whether it should include uppercase and lowercase letters; Whether it should include special characters.
-### Edit password – allows editing data in an existing password.
-### Delete password – deletes the selected password(s). The user should be notified, especially if more than one password is being deleted.
-### Add category – adds a new category that can be used when creating new passwords.
-### Delete category – deletes a category along with all passwords assigned to it.
+## Description
+Password Vault is a simple C++ program that allows for generating strong passwords and storing encrypted login details for various platforms.
+
+## Features
+
+1. **Password Generation** - Generates a random, strong password composed of a specified number of digits, letters, and special characters.
+
+2. **Password Storage** - Stores encrypted login details (platform, username, password) in a `vault.txt` file.
+
+## Usage
+
+1. Run the program and provide the Master Key, which is used for encryption.
+2. Choose one of the options:
+    - `1. Generate Password`: Enter the desired number of digits, letters, and special characters for your new password. The password will be generated and displayed.
+    - `2. Store Password`: Enter the platform name, username, and password that you wish to store. These details will be encrypted using your Master Key and saved in the `vault.txt` file.
+    - `3. Exit`: Exit the program.
+
+## Code
+The complete C++ code is provided in the repository.
+
+## Dependencies
+The program is dependent on C++ Standard Libraries only. Make sure your compiler supports C++14 or later.
+
+## Compilation
+Compile the program with a C++ compiler. For example, using g++:
+
+```bash
+g++ main.cpp -o main
