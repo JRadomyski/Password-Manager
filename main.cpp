@@ -32,7 +32,7 @@ std::string crypt(const std::string& input, const std::string& key, const std::s
     for (const auto& i : result) {
         result_str += std::to_string(i) + ',';
     }
-    result_str.pop_back(); // remove the trailing comma
+    result_str.pop_back();
 
     return result_str;
 }
@@ -77,9 +77,10 @@ void store_password(const std::string& master_key) {
     std::cout << "Record was added to the Vault!" << std::endl;
 }
 
+
 int main() {
     std::string master_key;
-    std::cout << "\nGreetings Master! Please provide the Master Key to proceed!";
+    std::cout << "\nGreetings Master! Please provide the Master Key to proceed! -> ";
     std::cin >> master_key;
 
     std::string choice;
@@ -87,7 +88,7 @@ int main() {
         std::cout << "\nChoose one of the options below:" << std::endl;
         std::cout << "1. Generate Password" << std::endl;
         std::cout << "2. Store Password" << std::endl;
-        std::cout << "3. Quit" << std::endl;
+        std::cout << "3. Exit" << std::endl;
 
         std::cin >> choice;
 
