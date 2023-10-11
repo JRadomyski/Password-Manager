@@ -1,4 +1,4 @@
-# Password Vault
+# Password Vault Project
 
 ## Description
 Password Vault is a simple C++ program that allows for generating strong passwords and storing encrypted login details for various platforms.
