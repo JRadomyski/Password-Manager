@@ -6,7 +6,6 @@ Password Vault is a simple C++ program that allows for generating strong passwor
 ## Features
 
 1. **Password Generation** - Generates a random, strong password composed of a specified number of digits, letters, and special characters.
-
 2. **Password Storage** - Stores encrypted login details (platform, username, password) in a `vault.txt` file.
 
 ## Usage
@@ -16,6 +15,9 @@ Password Vault is a simple C++ program that allows for generating strong passwor
     - `1. Generate Password`: Enter the desired number of digits, letters, and special characters for your new password. The password will be generated and displayed.
     - `2. Store Password`: Enter the platform name, username, and password that you wish to store. These details will be encrypted using your Master Key and saved in the `vault.txt` file.
     - `3. Exit`: Exit the program.
+
+## Demonstration Video
+[Watch the demonstration video on YouTube](https://www.youtube.com/watch?v=wWgVohI_AiM&ab_channel=kubdouche)
 
 ## Code
 The complete C++ code is provided in the repository.
