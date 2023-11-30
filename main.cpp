@@ -1,51 +1,60 @@
 #include <fstream>
 #include <iostream>
-#include <vector>
 #include <string>
-#include <iterator>
-#include <algorithm>
 #include <sstream>
 #include <random>
+#include <algorithm>
 
-std::string crypt(const std::string& input, const std::string& key, const std::string& mode) {
-    std::vector<int> master_key;
-    std::transform(key.begin(), key.end(), std::back_inserter(master_key), [](char c) { return int(c); });
+using namespace std;
 
-    std::vector<int> result;
+const int MAX_KEY_SIZE = 100;
+const int MAX_RESULT_SIZE = 1000;
+
+string crypt(const string& input, const string& key, const string& mode) {
+    int master_key[MAX_KEY_SIZE];
+    int key_length = 0;
+    for (char c : key) {
+        master_key[key_length++] = int(c);
+    }
+
+    int result[MAX_RESULT_SIZE];
+    int result_length = 0;
 
     if (mode == "encrypt") {
-        for (const char& ch : input) {
-            static size_t i = 0;
-            result.push_back(int(ch) + master_key[i++ % master_key.size()]);
+        size_t i = 0;
+        for (char ch : input) {
+            result[result_length++] = int(ch) + master_key[i++ % key_length];
         }
     } else if (mode == "decrypt") {
-        std::stringstream ss(input);
-        std::string token;
-        while (std::getline(ss, token, ',')) {
-            static size_t i = 0;
-            int value = std::stoi(token);
-            result.push_back((value - master_key[i++ % master_key.size()] < 0) ? 0 : value - master_key[i++ % master_key.size()]);
+        stringstream ss(input);
+        string token;
+        size_t i = 0;
+        while (getline(ss, token, ',')) {
+            int value = stoi(token);
+            result[result_length++] = (value - master_key[i % key_length] < 0) ? 0 : value - master_key[i % key_length];
+            i++;
+            i %= key_length;
         }
     }
 
-    std::string result_str;
-    for (const auto& i : result) {
-        result_str += std::to_string(i) + ',';
+    string result_str;
+    for (int i = 0; i < result_length; i++) {
+        result_str += to_string(result[i]) + ',';
     }
     result_str.pop_back();
 
     return result_str;
 }
 
-std::string generate_password(int n_numbers, int n_letters, int n_special_chars) {
-    std::string numbers = "0123456789";
-    std::string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    std::string special_chars = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+string generate_password(int n_numbers, int n_letters, int n_special_chars) {
+    string numbers = "0123456789";
+    string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    string special_chars = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
-    std::random_device rd;
-    std::mt19937 generator(rd());
+    random_device rd;
+    mt19937 generator(rd());
 
-    std::string password;
+    string password;
     for (int i = 0; i < n_numbers; i++)
         password.push_back(numbers[generator() % numbers.size()]);
     for (int i = 0; i < n_letters; i++)
@@ -53,52 +62,51 @@ std::string generate_password(int n_numbers, int n_letters, int n_special_chars)
     for (int i = 0; i < n_special_chars; i++)
         password.push_back(special_chars[generator() % special_chars.size()]);
 
-    std::shuffle(password.begin(), password.end(), generator);
+    shuffle(password.begin(), password.end(), generator);
 
     return password;
 }
 
-void store_password(const std::string& master_key) {
-    std::string platform, login, password;
+void store_password(const string& master_key) {
+    string platform, login, password;
 
-    std::cout << "\nProvide platform, login and password you want to store." << std::endl;
-    std::cin >> platform >> login >> password;
+    cout << "\nProvide platform, login and password you want to store." << endl;
+    cin >> platform >> login >> password;
 
-    std::string encrypted_platform = crypt(platform, master_key, "encrypt");
-    std::string encrypted_login = crypt(login, master_key, "encrypt");
-    std::string encrypted_password = crypt(password, master_key, "encrypt");
+    string encrypted_platform = crypt(platform, master_key, "encrypt");
+    string encrypted_login = crypt(login, master_key, "encrypt");
+    string encrypted_password = crypt(password, master_key, "encrypt");
 
-    std::ofstream file("vault.txt", std::ios::app);
+    ofstream file("vault.txt", ios::app);
     if (file.is_open()) {
         file << encrypted_platform << " " << encrypted_login << " " << encrypted_password << "\n";
         file.close();
     }
 
-    std::cout << "Record was added to the Vault!" << std::endl;
+    cout << "Record was added to the Vault!" << endl;
 }
 
-
 int main() {
-    std::string master_key;
-    std::cout << "\nGreetings Master! Please provide the Master Key to proceed! -> ";
-    std::cin >> master_key;
+    string master_key;
+    cout << "\nGreetings Master! Please provide the Master Key to proceed! -> ";
+    cin >> master_key;
 
-    std::string choice;
+    string choice;
     while (true) {
-        std::cout << "\nChoose one of the options below:" << std::endl;
-        std::cout << "1. Generate Password" << std::endl;
-        std::cout << "2. Store Password" << std::endl;
-        std::cout << "3. Exit" << std::endl;
+        cout << "\nChoose one of the options below:" << endl;
+        cout << "1. Generate Password" << endl;
+        cout << "2. Store Password" << endl;
+        cout << "3. Exit" << endl;
 
-        std::cin >> choice;
+        cin >> choice;
 
         if (choice == "1") {
             int n_numbers, n_letters, n_special_chars;
-            std::cout << "\nEnter the number of numbers, letters and special characters for the password to be generated." << std::endl;
-            std::cin >> n_numbers >> n_letters >> n_special_chars;
+            cout << "\nEnter the number of numbers, letters and special characters for the password to be generated." << endl;
+            cin >> n_numbers >> n_letters >> n_special_chars;
 
-            std::string password = generate_password(n_numbers, n_letters, n_special_chars);
-            std::cout << "\nGenerated password: " << password << std::endl;
+            string password = generate_password(n_numbers, n_letters, n_special_chars);
+            cout << "\nGenerated password: " << password << endl;
         }
         else if (choice == "2") {
             store_password(master_key);
@@ -107,7 +115,7 @@ int main() {
             break;
         }
         else {
-            std::cout << "\nInvalid choice. Please try again." << std::endl;
+            cout << "\nInvalid choice. Please try again." << endl;
         }
     }
 
